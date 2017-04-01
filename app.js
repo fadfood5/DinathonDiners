@@ -118,8 +118,8 @@ app.post('/addNames', function(req, res) {
             var name = data[0].split('\t');
             console.log(name);
             var temp = new User({
-                firstName: data[0],
-                lastName: data[1],
+                firstName: name[0],
+                lastName: name[1],
                 id: counter,
             });
             temp.save(function(err) {
