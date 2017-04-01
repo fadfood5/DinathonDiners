@@ -46,18 +46,30 @@ angular.module("App", ['ngMaterial'])
             $http.post('http://localhost/logout').then(function(success) {
                 console.log("Logout");
                 console.log(success);
-                //window.location.href = '/admin';
             }, function(error) {
                 console.log(error);
             });
         }
 
-				this.uploadNames = function(){ {
-            $http.post('http://localhost/home').then(function(success) {
-                console.log(success);
-								console.log("ayy lmao");
+        this.names = function() {
+            $http({
+                method: 'GET',
+                url: 'http://localhost:80/getNames'
+            }).then(function(result) {
+                console.log(result.data);
             }, function(error) {
                 console.log(error);
             });
-				}
+        }
+
+        this.uploadNames = function() {
+					var that = this;
+            $http.post('http://localhost/addNames').then(function(success) {
+                console.log(success);
+								that.names();
+                window.location.href = '/names';
+            }, function(error) {
+                console.log(error);
+            });
+        }
     });

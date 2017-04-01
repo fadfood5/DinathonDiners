@@ -31,18 +31,17 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {});
 
 var userSchema = mongoose.Schema({
-    name: String,
-    assigned_time: Number,
-    time_in: String,
-    time_up: Boolean,
-    in_detention: Boolean,
+    firstName: String,
+    lastName: String,
+    id: Number,
 });
 
-var userSchema = mongoose.model('User', userSchema);
+var User = mongoose.model('User', userSchema);
 
 //Pages
 var contact = require('./routes/contact');
 var home = require('./routes/home');
+var names = require('./routes/names');
 var register = require('./routes/register');
 var routes = require('./routes/index');
 
@@ -67,6 +66,7 @@ app.use('/static', express.static('/public'));
 app.use('/', routes);
 app.use('/contact', contact);
 app.use('/home', home);
+app.use('/names', names);
 app.use('/register', register);
 
 app.post('/login', function(req, res) {
@@ -95,7 +95,7 @@ app.post('/register', function(req, res) {
             var errorMessage = error.message;
             res.redirect('/error');
         });
-        res.refirect('/admin');
+        res.refirect('/home');
     }
     res.redirect('/error');
 });
@@ -108,31 +108,43 @@ app.post('/logout', function(req, res) {
     });
 });
 
-app.post('/home', function(req, res) {
+app.post('/addNames', function(req, res) {
     var stream = fs.createReadStream("./names.csv");
+    var counter = 0;
     var csvStream = csv()
         .on("data", function(data) {
-            console.log(data);
-            console.log(data[0]);
-            // var temp = new Student({
-            //     name: name,
-            //     assigned_time: time,
-            //     time_in: "",
-            //     time_up: false
-            // });
-            // temp.save(function(err) {
-            //     if (err) {
-            //         console.log(String(err));
-            //     }
-            // })
+            var name = data[0].split('\t');
+            console.log(name);
+            var temp = new User({
+                firstName: data[0],
+                lastName: data[1],
+                id: counter,
+            });
+            temp.save(function(err) {
+                if (err) {
+                    console.log(String(err));
+                }
+            })
+            counter++;
         })
         .on("end", function() {
             console.log("done");
         });
     stream.pipe(csvStream);
     console.log("success");
-    res.redirect('/admin');
-})
+    res.redirect('/names');
+});
+
+app.get('/getNames', function(req, res){
+	User.find(function(err, names) {
+        if (err) return console.error(err);
+        console.log(names);
+        res.json({
+            n: names
+        });
+    })
+		console.log("Got names");
+});
 
 //Contact form
 app.post('/contact', function(req, res) {
