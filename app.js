@@ -45,6 +45,7 @@ var contact = require('./routes/contact');
 var home = require('./routes/home');
 var register = require('./routes/register');
 var routes = require('./routes/index');
+var events = require('./routes/events');
 
 var app = express();
 
@@ -68,6 +69,7 @@ app.use('/', routes);
 app.use('/contact', contact);
 app.use('/home', home);
 app.use('/register', register);
+app.use('/events', events);
 
 app.post('/login', function(req, res) {
     var email = req.body.em;
