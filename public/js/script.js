@@ -51,22 +51,26 @@ angular.module("App", ['ngMaterial'])
             });
         }
 
+
+				$scope.names = [];
         this.names = function() {
             $http({
                 method: 'GET',
                 url: 'http://localhost:80/getNames'
             }).then(function(result) {
-                console.log(result.data);
+                console.log(result.data.n);
+								$scope.names = result.data.n;
+								console.log($scope.names);
             }, function(error) {
                 console.log(error);
             });
         }
+				this.names();
 
         this.uploadNames = function() {
 					var that = this;
             $http.post('http://localhost/addNames').then(function(success) {
                 console.log(success);
-								that.names();
                 window.location.href = '/names';
             }, function(error) {
                 console.log(error);

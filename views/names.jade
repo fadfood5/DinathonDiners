@@ -3,4 +3,14 @@ include nav2
 
 .jumbotron.text-align-center.large.white(ng-controller="HelloController as cuck")
     h1 Names
+    table
+        tr
+            th ID
+            th First Name
+            th Last Name
+        tr(ng-repeat='item in names')
+            td {{$index}}
+            td {{item.firstName}}
+            //edit name drop down box
+            td {{item.lastName}}
 include footer
