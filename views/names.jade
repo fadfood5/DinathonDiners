@@ -8,9 +8,10 @@ include nav2
             th ID
             th First Name
             th Last Name
-        tr(ng-repeat='item in names')
+            th(ng-repeat='head in nameHeader') {{head}}
+        tr(ng-repeat='item in names', ng-if="item.firstName != 'root'")
             td {{$index}}
             td {{item.firstName}}
-            //edit name drop down box
             td {{item.lastName}}
+            td(ng-repeat='f in item.food track by $index', ng-if='logMe(f)') {{f}}
 include footer

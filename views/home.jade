@@ -3,7 +3,15 @@ include nav2
 
 .jumbotron.text-align-center.large.white(ng-controller="HelloController as cuck")
     h1 Upload CSV file
+    md-input-container
+        label Email
+        input(ng-model='eventName', type='text')
     input(type='file')
     br
     md-button.md-raised.md-primary(ng-click='cuck.uploadNames()') Upload
+
+.jumbotron.text-align-center.large.white(ng-controller="HelloController as cuck")
+    h1 Existing Events
+    br
+    md-button.md-raised.md-primary(ng-click='cuck.goToNames()') Upload
 include footer

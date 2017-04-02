@@ -31,9 +31,18 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {});
 
 var userSchema = mongoose.Schema({
-    firstName: String,
-    lastName: String,
-    id: Number,
+    email: String,
+    user: [{
+        eventName: [{
+            evName: String,
+            names: [{
+                firstName: String,
+                lastName: String,
+                food: Array,
+                id: Number,
+            }]
+        }]
+    }]
 });
 
 var User = mongoose.model('User', userSchema);
@@ -71,13 +80,18 @@ app.use('/names', names);
 app.use('/register', register);
 app.use('/events', events);
 
+//TEMPORARY GLOBAL VAR
+var globalEmail = '';
+
 app.post('/login', function(req, res) {
     var email = req.body.em;
     var password = req.body.pass;
     console.log(email);
     console.log(password);
+    globalEmail = email;
     firebase.auth().signInWithEmailAndPassword(email, password).then(function() {
-        res.redirect('/home')
+        console.log("Logged in with " + globalEmail);
+        res.redirect('/home');
     }).catch(function(error) {
         var errorCode = error.code;
         var errorMessage = error.message;
@@ -97,7 +111,9 @@ app.post('/register', function(req, res) {
             var errorMessage = error.message;
             res.redirect('/error');
         });
-        res.refirect('/home');
+        globalEmail = email;
+        console.log("Logged in with " + globalEmail);
+        res.redirect('/home');
     }
     res.redirect('/error');
 });
@@ -113,39 +129,95 @@ app.post('/logout', function(req, res) {
 app.post('/addNames', function(req, res) {
     var stream = fs.createReadStream("./names.csv");
     var counter = 0;
-    var csvStream = csv()
-        .on("data", function(data) {
-            var name = data[0].split('\t');
-            console.log(name);
-            var temp = new User({
-                firstName: name[0],
-                lastName: name[1],
-                id: counter,
-            });
-            temp.save(function(err) {
-                if (err) {
-                    console.log(String(err));
-                }
-            })
-            counter++;
+    var foods;
+    var ev = req.body.event;
+    console.log(ev);
+    console.log("Email " + globalEmail);
+
+    var te = new User({
+        email: globalEmail,
+        user: [{
+            eventName: {
+                evName: ev
+            }
+        }]
+    });
+    console.log(te);
+    te.save(function(err) {
+        if (err) {
+            console.log(String(err));
+        }
+    }).then(function(success) {
+        User.findOne({
+            email: globalEmail
+        }, function(err, us) {
+            console.log(1);
+            console.log(us);
+            console.log(us.user[0].eventName[0].names);
+
+            var csvStream = csv()
+                .on("data", function(data) {
+                    console.log(data);
+                    var name = data[0].split('\t');
+                    console.log(name);
+                    if (name[0] === "Food") {
+                        console.log("cuck");
+                        foods = name;
+                        foods.splice(0, 1);
+                        us.user[0].eventName[0].names.push({
+                            firstName: "root",
+                            lastName: "user",
+                            food: foods,
+                            id: 0,
+                        })
+                        console.log("lmao");
+                        console.log(us);
+                    } else {
+                        console.log(foods);
+                        for (var i = 0; i < foods.length; i++) {
+                            foods[i] = "0";
+                        }
+                        us.user[0].eventName[0].names.push({
+                            firstName: name[0],
+                            lastName: name[1],
+                            food: foods,
+                            id: counter,
+                        })
+                        console.log(us);
+                        // us.save(function(err) {
+                        //     if (err) {
+                        //         console.log(String(err));
+                        //     }
+                        // })
+                        counter++;
+                    }
+                })
+                .on("end", function() {
+                    console.log("done");
+                    us.save(function(err) {
+                        if (err) {
+                            console.log(String(err));
+                        }
+                    })
+                });
+            stream.pipe(csvStream);
         })
-        .on("end", function() {
-            console.log("done");
-        });
-    stream.pipe(csvStream);
+    });
+
     console.log("success");
     res.redirect('/names');
 });
 
-app.get('/getNames', function(req, res){
-	User.find(function(err, names) {
-        if (err) return console.error(err);
-        console.log(names);
+app.get('/getNames', function(req, res) {
+    User.findOne({
+        email: globalEmail
+    }, function(err, us) {
+        console.log(1);
+        console.log(us);
         res.json({
-            n: names
+            n: us
         });
-    })
-		console.log("Got names");
+    });
 });
 
 //Contact form
