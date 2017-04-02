@@ -1,13 +1,18 @@
 include header
 include nav
-.jumbotron.text-align-center.large(style="background-color: white")
+.jumbotron.text-align-center.large(style="background-color: white", ng-controller="HelloController as cuck")
     br
-    h1 Check In
-    .col-xs-12.xol-sm-12.col-md-12.col-lg-4.offset-lg-4(ng-controller="HelloController as cuck")
+    div(ng-if="!showCheckIn")
+        h1(class="resHead") Choose Food Time
+        .col-xs-12.xol-sm-12.col-md-12.col-lg-4.offset-lg-4.col-xl-4.offset-xl-4(ng-repeat='head in nameHeader', ng-click="cuck.showCheckIn(head)")
+            md-button.md-raised.md-primary {{head}}
+
+    .col-xs-12.xol-sm-12.col-md-12.col-lg-4.offset-lg-4.col-xl-4.offset-xl-4(ng-if="showCheckIn")
+        h1(class="resHead") Check In for {{currentFood}}
         md-input-container
             label Student ID
             input(ng-model="checkInStudentId")
         br
-        md-button.md-raised.md-primary(ng-click='cuck.checkInUser(checkInStudentId)') Check In
+        md-button.md-raised.md-primary(ng-click='cuck.checkInUser(checkInStudentId, currentFood)') Check In
         p {{status}}
 include footer

@@ -96,9 +96,23 @@ angular.module("App", ['ngMaterial'])
         }
         $scope.checkInStudentId = '';
 				$scope.status = '';
-        this.checkInUser = function(studentId) {
+				$scope.currentFood = 0;
+				$scope.showCheckIn = false;
+				this.showCheckIn = function(i){
+					this.$scope.currentFood = i;
+					console.log(this.$scope.currentFood);
+					this.$scope.showCheckIn = true;
+				}
+
+				this.chooseCurrentFood = function(i){
+					$scope.currentFood = i;
+				}
+
+        this.checkInUser = function(i, j) {
+						console.log(this.$scope.currentFood);
             $http.post('http://localhost/checkInUser', {
-                "id": this.$scope.checkInStudentId,
+                "id": i,
+								"curr": j,
             }).then(function(success) {
                 console.log(success);
                 var t = success.data.s;

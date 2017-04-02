@@ -222,21 +222,31 @@ app.get('/getNames', function(req, res) {
 
 
 app.post('/checkInUser', function(req, res) {
-		console.log(1);
+		console.log(req.body.curr);
 		console.log(req.body.id);
     User.findOne({
         email: globalEmail
-    }, function(err, us) {
-        console.log(us.user[0].eventName[0].names);
-				if(err){
+    }, function(err, tmp) {
+				if(err)
 					console.log(err);
-					res.json({
-	            s: "Exists"
-	        });
-				}
-				res.json({
-            s: "Success"
-        });
+        console.log(tmp.user[0].eventName[0].names[req.body.id].food);
+				tmp.user[0].eventName[0].names[req.body.id].food[req.body.curr] = "1";
+        console.log(tmp.user[0].eventName[0].names[req.body.id].food);
+					// res.json({
+	        //     s: "Exists"
+	        // });
+				console.log(tmp);
+				tmp.save(function(err) {
+						if (err) {
+								console.log(String(err));
+								console.log("lmo");
+						}else{
+							console.log("saved");
+							res.json({
+									s: "Success"
+							});
+						}
+				})
     });
 });
 

@@ -243,3 +243,7 @@ footer{
 .md-toast.success {
     background-color: green;
 }
+
+.resHead{
+	font-size: 5rem;
+}
