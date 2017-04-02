@@ -1,17 +1,20 @@
 include header
 include nav2
 
-.jumbotron.text-align-center.large.white(ng-controller="HelloController as cuck")
-    h1 Upload CSV file
-    md-input-container
-        label Email
-        input(ng-model='eventName', type='text')
-    input(type='file')
+.jumbotron.text-align-center.large.white.container-fluid(ng-controller="HelloController as cuck")
+    h1.woah New Event
+    br
+    form.form-group.row.form-horizontal
+        .row
+            label.col-form-label(for='example-text-input') Event Name
+            input#example-text-input.form-control.input-lg(type='text', ng-model='eventName', style="text-align: center;")
+
+    input.biggerInput(type='file')
+    br
     br
     md-button.md-raised.md-primary(ng-click='cuck.uploadNames()') Upload
 
-.jumbotron.text-align-center.large.white(ng-controller="HelloController as cuck")
-    h1 Existing Events
-    br
-    md-button.md-raised.md-primary(ng-click='cuck.goToNames()') Upload
+//- .jumbotron.text-align-center.large.white(ng-controller="HelloController as cuck")
+//-     h1 Existing Events
+//-     br
 include footer

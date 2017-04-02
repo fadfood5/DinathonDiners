@@ -36,6 +36,7 @@ table {
     border-spacing: 0;
 }
 
+
 /*Personal CSS*/
 
 body {
@@ -183,18 +184,18 @@ td, th {
     /* No more visible border */
     height: 30px;
     transition: all 0.3s;
-		text-align: center;
+    text-align: center;
     /* Simple transition for hover effect */
-		padding-left: 3px;
-		padding-right: 3px;
+    padding-left: 3px;
+    padding-right: 3px;
 }
 
 th {
     background: #DFDFDF;
     /* Darken header a bit */
     font-weight: bold;
-		padding-left: 15px;
-		padding-right: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 td {
@@ -210,30 +211,37 @@ tr:nth-child(odd) td {
     background: #FEFEFE;
 }
 
+
 /*tr:hover {
     background: #666;
     color: #FFF;
 }*/
-.centerLi{
-	display:table;
-  margin:0px auto 0px auto;
+
+.centerLi {
+    display: table;
+    margin: 0px auto 0px auto;
 }
 
 .clearLink {
-  color: inherit; /* blue colors for links too */
-  text-decoration: inherit; /* no underline */
+    color: inherit;
+    /* blue colors for links too */
+    text-decoration: inherit;
+    /* no underline */
 }
-.clearLink:hover{
-	color: grey;
+
+.clearLink:hover {
+    color: grey;
 }
-.paddCard{
+
+.paddCard {}
+
+footer {
+    background-color: #333;
+    color: white;
 }
-footer{
-	background-color: #333;
-	color: white;
-}
-.closeButton{
-  background-color: rgba(0, 0, 0, 0);
+
+.closeButton {
+    background-color: rgba(0, 0, 0, 0);
 }
 
 .md-toast.error {
@@ -244,6 +252,42 @@ footer{
     background-color: green;
 }
 
-.resHead{
-	font-size: 5rem;
+.resHead {
+    font-size: 5rem;
+}
+
+.woah {
+    font-size: 5em;
+}
+
+@media (max-width: @screen-xs) {
+    body {
+        font-size: 6.2vw;
+    }
+		.biggerInput{
+			width: 100%;
+			font-size: 2em;
+		}
+}
+
+@media (max-width: @screen-sm) {
+    body {
+        font-size: 4.2vw;
+    }
+		.biggerInput{
+			width: 100%;
+			font-size: 2em;
+
+		}
+}
+
+@media (max-width: @screen-md) {
+    body {
+        font-size: 3.2vw;
+    }
+		.biggerInput{
+			width: 100%;
+			font-size: 2em;
+
+		}
 }
