@@ -4,6 +4,7 @@ angular.module("App", ['ngMaterial'])
         //Global Declarations
         this.$scope = $scope;
         this.$mdDialog = $mdDialog;
+        this.$mdToast = $mdToast;
 
         //Login
         $scope.mailLogin = "fadfood5@gmail.com";
@@ -51,44 +52,61 @@ angular.module("App", ['ngMaterial'])
             });
         }
 
-				$scope.names = [];
-				$scope.nameHeader = "";
-				$scope.rowSel = "";
+        $scope.names = [];
+        $scope.nameHeader = "";
+        $scope.rowSel = "";
         this.names = function() {
             $http({
                 method: 'GET',
                 url: 'http://localhost:80/getNames'
             }).then(function(result) {
-								console.log("ok");
+                console.log("ok");
                 console.log(result.data.n.user[0].eventName[0].names);
-								$scope.names = result.data.n.user[0].eventName[0].names;
-								$scope.nameHeader = result.data.n.user[0].eventName[0].names[0].food;
-								//console.log($scope.names);
-								//console.log($scope.nameHeader.food);
+                $scope.names = result.data.n.user[0].eventName[0].names;
+                $scope.nameHeader = result.data.n.user[0].eventName[0].names[0].food;
+                //console.log($scope.names);
+                //console.log($scope.nameHeader.food);
             }, function(error) {
                 console.log(error);
             });
         }
-				this.names();
+        this.names();
 
-				this.goToNames = function(){
-					window.location.href = '/names';
-				}
+        this.goToNames = function() {
+            window.location.href = '/names';
+        }
 
-				$scope.logMe = function(i){
-					console.log(i);
-					return true;
-				}
+        $scope.logMe = function(i) {
+            console.log(i);
+            return true;
+        }
 
-				$scope.eventName = "";
+        $scope.eventName = "";
 
         this.uploadNames = function() {
-					var that = this;
+            var that = this;
             $http.post('http://localhost/addNames', {
                 "event": this.$scope.eventName,
             }).then(function(success) {
                 console.log(success);
                 window.location.href = '/names';
+            }, function(error) {
+                console.log(error);
+            });
+        }
+        $scope.checkInStudentId = '';
+				$scope.status = '';
+        this.checkInUser = function(studentId) {
+            $http.post('http://localhost/checkInUser', {
+                "id": this.$scope.checkInStudentId,
+            }).then(function(success) {
+                console.log(success);
+                var t = success.data.s;
+                if (t === "Success") {
+                    $scope.status = "Success!"
+                } else if (t === "Exists") {
+                    $scope.status = "Already got food :(";
+                }
             }, function(error) {
                 console.log(error);
             });

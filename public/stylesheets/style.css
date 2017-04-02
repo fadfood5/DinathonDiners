@@ -235,3 +235,11 @@ footer{
 .closeButton{
   background-color: rgba(0, 0, 0, 0);
 }
+
+.md-toast.error {
+    background-color: red;
+}
+
+.md-toast.success {
+    background-color: green;
+}

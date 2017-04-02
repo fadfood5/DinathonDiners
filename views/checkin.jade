@@ -1,0 +1,13 @@
+include header
+include nav
+.jumbotron.text-align-center.large(style="background-color: white")
+    br
+    h1 Check In
+    .col-xs-12.xol-sm-12.col-md-12.col-lg-4.offset-lg-4(ng-controller="HelloController as cuck")
+        md-input-container
+            label Student ID
+            input(ng-model="checkInStudentId")
+        br
+        md-button.md-raised.md-primary(ng-click='cuck.checkInUser(checkInStudentId)') Check In
+        p {{status}}
+include footer

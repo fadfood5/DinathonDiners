@@ -53,7 +53,7 @@ var home = require('./routes/home');
 var names = require('./routes/names');
 var register = require('./routes/register');
 var routes = require('./routes/index');
-var events = require('./routes/events');
+var checkin = require('./routes/checkin');
 
 var app = express();
 
@@ -78,7 +78,7 @@ app.use('/contact', contact);
 app.use('/home', home);
 app.use('/names', names);
 app.use('/register', register);
-app.use('/events', events);
+app.use('/checkin', checkin);
 
 //TEMPORARY GLOBAL VAR
 var globalEmail = '';
@@ -216,6 +216,26 @@ app.get('/getNames', function(req, res) {
         console.log(us);
         res.json({
             n: us
+        });
+    });
+});
+
+
+app.post('/checkInUser', function(req, res) {
+		console.log(1);
+		console.log(req.body.id);
+    User.findOne({
+        email: globalEmail
+    }, function(err, us) {
+        console.log(us.user[0].eventName[0].names);
+				if(err){
+					console.log(err);
+					res.json({
+	            s: "Exists"
+	        });
+				}
+				res.json({
+            s: "Success"
         });
     });
 });

@@ -13,5 +13,5 @@ include nav2
             td {{$index}}
             td {{item.firstName}}
             td {{item.lastName}}
-            td(ng-repeat='f in item.food track by $index', ng-if='logMe(f)') {{f}}
+            td(ng-repeat='f in item.food track by $index') {{f}}
 include footer
