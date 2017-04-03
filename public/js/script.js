@@ -11,7 +11,7 @@ angular.module("App", ['ngMaterial'])
         $scope.passLogin = "12341234";
 
         this.login = function() {
-            $http.post('http://localhost/login', {
+            $http.post('http://ec2-54-218-11-172.us-west-2.compute.amazonaws.com//login', {
                 "em": this.$scope.mailLogin,
                 "pass": this.$scope.passLogin
             }).then(function(success) {
@@ -29,7 +29,7 @@ angular.module("App", ['ngMaterial'])
         $scope.passRegisterConfirm = "";
 
         this.register = function() {
-            $http.post('http://localhost/register', {
+            $http.post('http://ec2-54-218-11-172.us-west-2.compute.amazonaws.com//register', {
                 "email": this.$scope.mailRegister,
                 "password": this.$scope.passRegister,
                 "passwordConfirm": this.$scope.passRegisterConfirm
@@ -44,7 +44,7 @@ angular.module("App", ['ngMaterial'])
 
         //Logout
         this.logout = function() {
-            $http.post('http://localhost/logout').then(function(success) {
+            $http.post('http://ec2-54-218-11-172.us-west-2.compute.amazonaws.com//logout').then(function(success) {
                 console.log("Logout");
                 console.log(success);
             }, function(error) {
@@ -58,7 +58,7 @@ angular.module("App", ['ngMaterial'])
         this.names = function() {
             $http({
                 method: 'GET',
-                url: 'http://localhost:80/getNames'
+                url: 'http://ec2-54-218-11-172.us-west-2.compute.amazonaws.com/:80/getNames'
             }).then(function(result) {
                 console.log("ok");
                 console.log(result.data.n.user[0].eventName[0].names);
@@ -85,7 +85,7 @@ angular.module("App", ['ngMaterial'])
 
         this.uploadNames = function() {
             var that = this;
-            $http.post('http://localhost/addNames', {
+            $http.post('http://ec2-54-218-11-172.us-west-2.compute.amazonaws.com//addNames', {
                 "event": this.$scope.eventName,
             }).then(function(success) {
                 console.log(success);
@@ -130,7 +130,7 @@ angular.module("App", ['ngMaterial'])
                 $scope.status = "Success!";
                 this.switch(0);
                 $scope.counter++;
-                $http.post('http://localhost/checkInUser', {
+                $http.post('http://ec2-54-218-11-172.us-west-2.compute.amazonaws.com//checkInUser', {
                     "id": i,
                     "curr": j,
                 }).then(function(success) {
@@ -150,7 +150,7 @@ angular.module("App", ['ngMaterial'])
                     $scope.selected.push(i);
                     this.switch(0);
                     $scope.status = "Success!";
-                    $http.post('http://localhost/checkInUser', {
+                    $http.post('http://ec2-54-218-11-172.us-west-2.compute.amazonaws.com//checkInUser', {
                         "id": i,
                         "curr": j,
                     }).then(function(success) {
