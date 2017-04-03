@@ -11,8 +11,9 @@ include nav
         h1(class="resHead") Check In for {{currentFood}}
         md-input-container
             label Student ID
-            input(ng-model="checkInStudentId")
+            input(ng-model="checkInStudentId", style="text-align: center;")
         br
         md-button.md-raised.md-primary(ng-click='cuck.checkInUser(checkInStudentId, currentFood)') Check In
-        p {{status}}
+        p(style="color: green;", ng-if="success") {{status}}
+        p(style="color: red;", ng-if="noSuccess") {{status}}
 include footer

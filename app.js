@@ -163,6 +163,7 @@ app.post('/addNames', function(req, res) {
                     if (name[0] === "Food") {
                         console.log("cuck");
                         foods = name;
+												console.log(foods);
                         foods.splice(0, 1);
                         us.user[0].eventName[0].names.push({
                             firstName: "root",

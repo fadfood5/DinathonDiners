@@ -159,7 +159,7 @@ li {
 }
 
 nav {
-    background-color: #333;
+    background-color: #d8b213;
 }
 
 nav li {
@@ -236,7 +236,7 @@ tr:nth-child(odd) td {
 .paddCard {}
 
 footer {
-    background-color: #333;
+    background-color: #d8b213;
     color: white;
 }
 
@@ -290,4 +290,7 @@ footer {
 			font-size: 2em;
 
 		}
+}
+.md-primary{
+	background-color: rgb(16,108,200) !important;
 }

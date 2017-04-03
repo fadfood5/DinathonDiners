@@ -9,7 +9,11 @@ include nav2
             label.col-form-label(for='example-text-input') Event Name
             input#example-text-input.form-control.input-lg(type='text', ng-model='eventName', style="text-align: center;")
 
-    input.biggerInput(type='file')
+    .wrapper
+        .file-upload
+            input(type='file')
+            i.fa.fa-arrow-up
+
     br
     br
     md-button.md-raised.md-primary(ng-click='cuck.uploadNames()') Upload

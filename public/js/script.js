@@ -53,7 +53,7 @@ angular.module("App", ['ngMaterial'])
         }
 
         $scope.names = [];
-        $scope.nameHeader = "";
+        $scope.nameHeader = [];
         $scope.rowSel = "";
         this.names = function() {
             $http({
@@ -95,34 +95,81 @@ angular.module("App", ['ngMaterial'])
             });
         }
         $scope.checkInStudentId = '';
-				$scope.status = '';
-				$scope.currentFood = 0;
-				$scope.showCheckIn = false;
-				this.showCheckIn = function(i){
-					this.$scope.currentFood = i;
-					console.log(this.$scope.currentFood);
-					this.$scope.showCheckIn = true;
-				}
+        $scope.status = '';
+        $scope.currentFood = 0;
+        $scope.showCheckIn = false;
+        $scope.selected = [];
+        this.showCheckIn = function(i) {
+            this.$scope.currentFood = i;
+            console.log(this.$scope.currentFood);
+            this.$scope.showCheckIn = true;
+        }
 
-				this.chooseCurrentFood = function(i){
-					$scope.currentFood = i;
-				}
+        this.chooseCurrentFood = function(i) {
+            $scope.currentFood = i;
+        }
 
+
+        $scope.success = false;
+        $scope.noSuccess = false;
+        this.switch = function(i) {
+            if (i == 0) {
+                $scope.success = true;
+                $scope.noSuccess = false;
+            } else if (i == 1) {
+                $scope.success = false;
+                $scope.noSuccess = true;
+            }
+        }
+
+        $scope.counter = 0;
         this.checkInUser = function(i, j) {
-						console.log(this.$scope.currentFood);
-            $http.post('http://localhost/checkInUser', {
-                "id": i,
-								"curr": j,
-            }).then(function(success) {
-                console.log(success);
-                var t = success.data.s;
-                if (t === "Success") {
-                    $scope.status = "Success!"
-                } else if (t === "Exists") {
+						this.$scope.checkInStudentId = '';
+            if ($scope.counter == 0) {
+                $scope.selected.push(i);
+                $scope.status = "Success!";
+                this.switch(0);
+                $scope.counter++;
+                $http.post('http://localhost/checkInUser', {
+                    "id": i,
+                    "curr": j,
+                }).then(function(success) {
+                    console.log(success);
+                    var t = success.data.s;
+                    // if (t === "Success") {
+                    //     $scope.status = "Success!"
+                    // } else if (t === "Exists") {
+                    //     $scope.status = "Already got food :(";
+                    // }
+                }, function(error) {
+                    console.log(error);
+                });
+            } else {
+                console.log(this.$scope.currentFood);
+                if (!$scope.selected.includes(i)) {
+                    $scope.selected.push(i);
+                    this.switch(0);
+                    $scope.status = "Success!";
+                    $http.post('http://localhost/checkInUser', {
+                        "id": i,
+                        "curr": j,
+                    }).then(function(success) {
+                        console.log(success);
+                        var t = success.data.s;
+                        // if (t === "Success") {
+                        //     $scope.status = "Success!"
+                        // } else if (t === "Exists") {
+                        //     $scope.status = "Already got food :(";
+                        // }
+                    }, function(error) {
+                        console.log(error);
+                    });
+                } else {
+                    this.switch(1);
                     $scope.status = "Already got food :(";
                 }
-            }, function(error) {
-                console.log(error);
-            });
+                $scope.counter++;
+            }
+            console.log($scope.selected);
         }
     });
